@@ -1,6 +1,5 @@
-function(instance, properties, context) {
-  console.log("opening...");
-  
+function(instance, context) {
+   
   const fields = [
   {
     // Visible in table header and when matching columns.
@@ -27,25 +26,21 @@ function(instance, properties, context) {
       },
     ],
   },
-];
+  ];
 
+  window.RSIPlugin.isOpen = false;
     
-  let element = RSIReact.createElement(RSI, {
-    isOpen: true,
-    onClose: () => { console.log('should close now')},
-    onSubmit: (data) => {console.log("got this: -> ", data)},
-    fields: fields
-  });
-    
-  let target = document.querySelector('[data-importer="1"]');
-
-  if (!target) {
-    let div = document.createElement("div");
-    div.setAttribute("data-csv-importer", "1");
-    let firstChild = document.body.firstChild;
-
-    target = document.body.insertBefore(div, firstChild);
+  const handleOnClose = () =>  {
+    window.RSIPlugin.isOpen = false;
   }
+  
+  window.RSIPlugin.RSIelement = RSIPlugin.React.createElement(RSIPlugin.ReactSpreadsheetImport, {
+    isOpen: window.RSIPlugin.isOpen,
+    onClose: handleOnClose,
+    onSubmit: (data) => {console.log("got this: -> ", data)},
+    fields: fields,
+    className: "rsi-modal"
+  });
 
-  RSIReactDOM.render(element, target);
+  RSIPlugin.ReactDOM.render(window.RSIPlugin.RSIelement, document.body);
 }
