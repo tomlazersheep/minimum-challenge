@@ -1,3 +1,7 @@
 function(instance, properties, context) {
-  window.RSIPlugin.isOpen = true;
+  if (opened != undefined) {
+    opened = true;
+  } else {
+    console.log("open not working");
+  }
 }
